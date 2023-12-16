@@ -65,13 +65,6 @@ zoom = solara.reactive(2)
 center = solara.reactive((20, 0))
 
 
-class Map(leafmap.Map):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        # Add what you want below
-        self.add_stac_gui()
-
-
 @solara.component
 def Page():
     with solara.Column(style={"min-width": "500px"}):
