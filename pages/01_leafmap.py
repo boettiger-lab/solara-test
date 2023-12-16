@@ -23,7 +23,7 @@ class Map(leafmap.Map):
         calfire = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/fire22_1.gdb",  layer = "firep22_1")
         jtree = nps[nps.PARKNAME == "Joshua Tree"].to_crs(calfire.crs)
         self.add_gdf(jtree)
-        #self.add_stac_gui()
+        self.add_stac_gui()
 
 
 @solara.component
@@ -43,5 +43,5 @@ def Page():
             data_ctrl=False,
             height="780px",
         )
-        # solara.Text(f"Zoom: {zoom.value}")
-        # solara.Text(f"Center: {center.value}")
+        solara.Text(f"Zoom: {zoom.value}")
+        solara.Text(f"Center: {center.value}")
