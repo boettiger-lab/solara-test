@@ -1,4 +1,9 @@
 leafmap
 solara
 geopandas
-pydantic< 2.0 
+pydantic< 2.0
+pystac-client
+planetary-computer
+odc-stac
+dask
+matplotlib
