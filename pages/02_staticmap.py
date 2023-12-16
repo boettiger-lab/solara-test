@@ -3,7 +3,6 @@ import pystac_client
 import planetary_computer
 import odc.stac
 import geopandas as gpd
-from rasterstats import zonal_stats
 import dask.distributed
 import matplotlib.pyplot as plt
 
@@ -83,3 +82,4 @@ def Page():
         ax.set(title= title)
         ax.axis('off')
         plt.show()
+
