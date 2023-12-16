@@ -1,5 +1,15 @@
 import leafmap
 import solara
+import solara
+import pystac_client
+import planetary_computer
+import odc.stac
+import geopandas as gpd
+import dask.distributed
+import matplotlib.pyplot as plt
+
+# Stashed public copies of NPS polygons and CalFire polygons
+
 
 zoom = solara.reactive(2)
 center = solara.reactive((20, 0))
@@ -9,7 +19,11 @@ class Map(leafmap.Map):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Add what you want below
-        self.add_stac_gui()
+        nps = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/NPS.gdb")
+        calfire = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/fire22_1.gdb",  layer = "firep22_1")
+        jtree = nps[nps.PARKNAME == "Joshua Tree"].to_crs(calfire.crs)
+        self.add_geojson(jtree)
+        #self.add_stac_gui()
 
 
 @solara.component
