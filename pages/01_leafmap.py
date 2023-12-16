@@ -22,7 +22,7 @@ class Map(leafmap.Map):
         nps = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/NPS.gdb")
         calfire = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/fire22_1.gdb",  layer = "firep22_1")
         jtree = nps[nps.PARKNAME == "Joshua Tree"].to_crs(calfire.crs)
-        self.add_geojson(jtree)
+        self.add_gdf(jtree)
         #self.add_stac_gui()
 
 
