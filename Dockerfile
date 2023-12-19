@@ -13,6 +13,7 @@ COPY /pages ./pages
 ENV PROJ_LIB='/opt/conda/share/proj'
 
 USER root
+RUN apt-get update && apt-get -y install git
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
