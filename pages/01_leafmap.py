@@ -53,7 +53,7 @@ class Map(leafmap.Map):
         super().__init__(**kwargs)
         # Add what you want below
         self.add_gdf(jtree_fires)
-        self.add_stac_gui()
+        self.add_raster("nbs.tif")
 
 
 @solara.component
