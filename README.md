@@ -35,9 +35,9 @@ The required code for analysis is in `fire.py`, with solara visualization in `pa
 
 This repository uses three GitHub Actions:
 
-  📦 [`docker.yml`](.github/workflows/docker.yml) builds the Dockerfile and pushes to GitHub Container Registry
-  🤗 [`sync-hf.yml`](.github/workflows/sync-hf.yml) syncs the GitHub repo to HuggingFace Spaces repo, which renders the Solara App via Dockerfile.
-  💻 [`compute.yml`](.github/workflows/compute.yml) Runs the `fire.py` script using the Docker container environment, and pushes the resulting COGs to 🤗 huggingface datasets.
+  - 📦 [`docker.yml`](.github/workflows/docker.yml) builds the Dockerfile and pushes to GitHub Container Registry
+  - 🤗 [`sync-hf.yml`](.github/workflows/sync-hf.yml) syncs the GitHub repo to HuggingFace Spaces repo, which renders the Solara App via Dockerfile.
+  - 💻 [`compute.yml`](.github/workflows/compute.yml) Runs the `fire.py` script using the Docker container environment, and pushes the resulting COGs to 🤗 huggingface datasets.
 
 ### Credentials
 
