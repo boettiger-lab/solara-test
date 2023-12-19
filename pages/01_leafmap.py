@@ -22,8 +22,6 @@ class Map(leafmap.Map):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Add what you want below
-        nps = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/NPS.gdb")
-        calfire = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/fire22_1.gdb",  layer = "firep22_1")
         self.add_gdf(jtree_fires)
         self.add_stac_gui()
 
