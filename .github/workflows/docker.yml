@@ -1,0 +1,27 @@
+name: Docker Image CI
+on:
+  workflow_dispatch: null
+  push:
+    paths: ['Dockerfile', 'requirements.txt']
+jobs:
+  build:
+    env:
+        REPO: "boettiger-lab/solara-test"
+        CONTAINER: "ghcr.io/boettiger-lab/solara-geospatial:latest"
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        if: github.repository == ${{repo}}
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - name: Build the Docker image
+        if: github.repository == ${{repo}}
+        run: docker build . --tag ${{CONTAINER}}
+      - name: Publish
+        if: github.repository == ${{repo}}
+        run: docker push ${{CONTAINER}}
