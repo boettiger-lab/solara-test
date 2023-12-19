@@ -67,10 +67,16 @@ before_date = alarm_date - timedelta(days=14)
 after_date = alarm_date + timedelta(days=14)
 search_dates = before_date.strftime("%Y-%m-%d") + "/" + after_date.strftime("%Y-%m-%d")
 
-# here we go!
-items = stac_search(box, search_dates)
-nbs = compute_nbs(items, box)
 
-# write first and last date to tif
-nbs.isel(time=0).rio.to_raster(raster_path="before.tif", driver="COG")
-nbs.isel(time=(nbs.time.size-1)).rio.to_raster(raster_path="after.tif", driver="COG")
+def run():
+     # here we go!
+     items = stac_search(box, search_dates)
+     nbs = compute_nbs(items, box)
+
+     # write first and last date to tif
+     nbs.isel(time=0).rio.to_raster(raster_path="before.tif", driver="COG")
+     nbs.isel(time=(nbs.time.size-1)).rio.to_raster(raster_path="after.tif", driver="COG")
+
+
+if __name__ == "__main__":
+    run()
