@@ -1,15 +1,14 @@
+name: Compute COGs
 on:
   #schedule:
   #  - cron: '0 23 * * *'
   workflow_dispatch:
 
-name: compute
-
 jobs:
-  docker:
+  compute:
     runs-on: ubuntu-latest
     #container: rocker/geospatial:latest
-    container: docker pull ghcr.io/boettiger-lab/solara-geospatial:latest
+    container: ghcr.io/boettiger-lab/solara-geospatial:latest
     steps:
       - name: config
         run: git config --system --add safe.directory '*'
