@@ -1,19 +1,22 @@
 import leafmap
 import solara
-import solara
 import pystac_client
 import planetary_computer
 import odc.stac
 import geopandas as gpd
 import dask.distributed
 import matplotlib.pyplot as plt
+import rioxarray
+from osgeo import gdal
+import matplotlib.pyplot as plt
 
-# Stashed public copies of NPS polygons and CalFire polygons
+zoom = solara.reactive(8)
+center = solara.reactive((34, -114))
 
-
-zoom = solara.reactive(2)
-center = solara.reactive((20, 0))
-
+nps = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodiversity/resolve/main/data/NPS.gdb")
+calfire = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodiversity/resolve/main/data/fire22_1.gdb",  layer = "firep22_1")
+jtree = nps[nps.PARKNAME == "Joshua Tree"].to_crs(calfire.crs)
+jtree_fires = jtree.overlay(calfire, how="intersection")
 
 class Map(leafmap.Map):
     def __init__(self, **kwargs):
@@ -21,9 +24,8 @@ class Map(leafmap.Map):
         # Add what you want below
         nps = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/NPS.gdb")
         calfire = gpd.read_file("/vsicurl/https://minio.carlboettiger.info/public-biodiversity/fire22_1.gdb",  layer = "firep22_1")
-        jtree = nps[nps.PARKNAME == "Joshua Tree"].to_crs(calfire.crs)
-        self.add_gdf(jtree)
-        #self.add_stac_gui()
+        self.add_gdf(jtree_fires)
+        self.add_stac_gui()
 
 
 @solara.component
@@ -43,5 +45,5 @@ def Page():
             data_ctrl=False,
             height="780px",
         )
-        # solara.Text(f"Zoom: {zoom.value}")
-        # solara.Text(f"Center: {center.value}")
+        solara.Text(f"Zoom: {zoom.value}")
+        solara.Text(f"Center: {center.value}")
