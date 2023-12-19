@@ -23,8 +23,8 @@ big = recent[recent.Shape_Area == recent.Shape_Area.max()].to_crs("EPSG:4326")
 datetime = big.ALARM_DATE.item() + "/" + big.CONT_DATE.item()
 box = big.buffer(0.01).bounds.to_numpy()[0]  # Fire bbox + buffer  #box = jtree.to_crs("EPSG:4326").bounds.to_numpy()[0] # Park bbox
 
-before_url = "/vsicurl/https://huggingface.co/datasets/cboettig/solara-data/resolve/main/before.tif"
-after_url = "/vsicurl/https://huggingface.co/datasets/cboettig/solara-data/resolve/main/after.tif"
+before_url = "https://huggingface.co/datasets/cboettig/solara-data/resolve/main/before.tif"
+after_url = "https://huggingface.co/datasets/cboettig/solara-data/resolve/main/after.tif"
 
 
 class Map(leafmap.Map):
