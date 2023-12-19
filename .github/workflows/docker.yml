@@ -2,12 +2,12 @@ name: Docker Image CI
 on:
   workflow_dispatch: null
   push:
-    paths: ['Dockerfile', 'requirements.txt']
+    paths: ['Dockerfile', 'requirements.txt', '.github/workflows/docker.yml']
 jobs:
   build:
     env:
-        REPO: "boettiger-lab/solara-test"
-        CONTAINER: "ghcr.io/boettiger-lab/solara-geospatial:latest"
+      REPO: "boettiger-lab/solara-test"
+      CONTAINER: "ghcr.io/boettiger-lab/solara-geospatial:latest"
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
@@ -21,7 +21,7 @@ jobs:
           password: ${{secrets.GITHUB_TOKEN}}
       - name: Build the Docker image
         if: github.repository ==  "boettiger-lab/solara-test"
-        run: docker build . --tag ${{CONTAINER}}
+        run: docker build . --tag "ghcr.io/boettiger-lab/solara-geospatial:latest"
       - name: Publish
         if: github.repository == "boettiger-lab/solara-test"
-        run: docker push ${{CONTAINER}}
+        run: docker push "ghcr.io/boettiger-lab/solara-geospatial:latest"
