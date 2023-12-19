@@ -27,5 +27,5 @@ jobs:
           git config user.email github-actions@github.com
           git add *.tif
           git commit -a -m "update data" || echo "nothing to commit"
-          git push https://cboettig:$HF_TOKEN@huggingface.co/spaces/cboettig/solara-test main
+          git pull && git push https://cboettig:$HF_TOKEN@huggingface.co/spaces/cboettig/solara-test main
 
