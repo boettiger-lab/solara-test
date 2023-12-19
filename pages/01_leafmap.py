@@ -10,8 +10,8 @@ import rioxarray
 from osgeo import gdal
 import matplotlib.pyplot as plt
 
-zoom = solara.reactive(8)
-center = solara.reactive((34, -114))
+zoom = solara.reactive(14)
+center = solara.reactive((34, -116))
 
 nps = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodiversity/resolve/main/data/NPS.gdb")
 calfire = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodiversity/resolve/main/data/fire22_1.gdb",  layer = "firep22_1")
