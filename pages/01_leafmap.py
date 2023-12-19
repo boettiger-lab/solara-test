@@ -53,6 +53,7 @@ temp_dir = tempfile.gettempdir()
 nbs_file = os.path.join(temp_dir, "random_filename.tif")
 nbs.rio.to_raster(raster_path=nbs_file, driver="COG")
 
+nbs_url = "/vsicurl/https://huggingface.co/datasets/cboettig/solara-data/resolve/main/nbs.tif"
 
 
 class Map(leafmap.Map):
@@ -60,7 +61,7 @@ class Map(leafmap.Map):
         super().__init__(**kwargs)
         # Add what you want below
         self.add_gdf(jtree_fires)
-        self.add_raster(nbs_file)
+        self.add_cog_layer(nbs_url)
 
 
 @solara.component
