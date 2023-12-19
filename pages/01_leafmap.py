@@ -46,7 +46,12 @@ nbs = (((nir - swir) / (nir + swir)).
       #  median("time", keep_attrs=True).
         compute()
 )
-nbs.rio.to_raster(raster_path="nbs.tif", driver="COG")
+
+import tempfile
+import os
+temp_dir = tempfile.gettempdir()
+nbs_file = os.path.join(temp_dir, "random_filename.tif")
+nbs.rio.to_raster(raster_path=nbs_file, driver="COG")
 
 
 
@@ -55,7 +60,7 @@ class Map(leafmap.Map):
         super().__init__(**kwargs)
         # Add what you want below
         self.add_gdf(jtree_fires)
-        self.add_raster("nbs.tif")
+        self.add_raster(nbs_file)
 
 
 @solara.component
