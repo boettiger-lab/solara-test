@@ -24,4 +24,4 @@ This application accesses boundary polygons from the National Parks Service and 
 
 ### Code
 
-The required code for analysis is in `fire.py`, with solara visualization in `pages/01_leafmap.py`.  (For interactive )
+The required code for analysis is in `fire.py`, with solara visualization in `pages/01_leafmap.py`.  (For interactive use, see `solar-app.pynb`)

@@ -1,32 +1,23 @@
 import leafmap
 import solara
-import pystac_client
-import planetary_computer
-import odc.stac
-import geopandas as gpd
-import dask.distributed
-import matplotlib.pyplot as plt
-import rioxarray
-from osgeo import gdal
-import matplotlib.pyplot as plt
+
+# external script defines polygons, etc
+from fire import *
 
 zoom = solara.reactive(14)
 center = solara.reactive((34, -116))
 
-nps = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodiversity/resolve/main/data/NPS.gdb")
-calfire = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodiversity/resolve/main/data/fire22_1.gdb",  layer = "firep22_1")
-jtree = nps[nps.PARKNAME == "Joshua Tree"].to_crs(calfire.crs)
-jtree_fires = jtree.overlay(calfire, how="intersection")
-
-recent = jtree_fires[jtree_fires.YEAR_ > "2015"]
-big = recent[recent.Shape_Area == recent.Shape_Area.max()].to_crs("EPSG:4326")
-datetime = big.ALARM_DATE.item() + "/" + big.CONT_DATE.item()
-box = big.buffer(0.01).bounds.to_numpy()[0]  # Fire bbox + buffer  #box = jtree.to_crs("EPSG:4326").bounds.to_numpy()[0] # Park bbox
-
+# location of cached COGs
 before_url = "https://huggingface.co/datasets/cboettig/solara-data/resolve/main/before.tif"
 after_url = "https://huggingface.co/datasets/cboettig/solara-data/resolve/main/after.tif"
 
-
+# custom polygon appearance
+style = {
+    "stroke": False,
+    "fill": True,
+    "fillColor": "#ff6666",
+    "fillOpacity": 0.5,
+}
 
 class Map(leafmap.Map):
     def __init__(self, **kwargs):
