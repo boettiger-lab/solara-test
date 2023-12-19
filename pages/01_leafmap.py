@@ -32,7 +32,7 @@ class Map(leafmap.Map):
         super().__init__(**kwargs)
         # Add what you want below
         self.add_gdf(jtree_fires)
-        self.add_split_map(before_url, after_url)
+        self.split_map(before_url, after_url)
 
 
 @solara.component
