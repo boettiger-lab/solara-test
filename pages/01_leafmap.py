@@ -27,12 +27,16 @@ before_url = "https://huggingface.co/datasets/cboettig/solara-data/resolve/main/
 after_url = "https://huggingface.co/datasets/cboettig/solara-data/resolve/main/after.tif"
 
 
+
 class Map(leafmap.Map):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Add what you want below
-        self.add_gdf(jtree_fires)
-        self.split_map(before_url, after_url)
+        self.add_gdf(jtree_fires, "All Fires", )
+        self.add_gdf(big, big.FIRE_NAME.item())
+        self.split_map(before_url, after_url, 
+                       left_label = "NBS before fire",
+                       right_label = "NBS after fire")
 
 
 @solara.component

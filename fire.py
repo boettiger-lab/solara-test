@@ -1,5 +1,4 @@
-import leafmap
-import solara
+
 import pystac_client
 import planetary_computer
 import odc.stac
@@ -61,7 +60,7 @@ recent = jtree_fires[jtree_fires.YEAR_ > "2015"]
 big = recent[recent.Shape_Area == recent.Shape_Area.max()].to_crs("EPSG:4326")
 
 # Get bounding box + dates before & after fire for STAC search
-box = big.buffer(0.005).bounds.to_numpy()[0]  # Fire bbox + buffer
+box = big.buffer(0.01).bounds.to_numpy()[0]  # Fire bbox + buffer
 alarm_date = datetime.strptime(big.ALARM_DATE.item(), "%Y-%m-%dT%H:%M:%S+00:00")  
 before_date = alarm_date - timedelta(days=14)
 after_date = alarm_date + timedelta(days=14)
@@ -80,3 +79,4 @@ def run():
 
 if __name__ == "__main__":
     run()
+
