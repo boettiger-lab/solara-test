@@ -11,6 +11,11 @@ app_port: 8765
 
 NOTE: The YAML header above is required for HuggingFace Spaces deployment.  Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
 
+-----
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/boettiger-lab/solara-test)
+
+
 # Simple Solara demo
 
 This respository demonstrates how we can deploy an interactive map tool from a few lines of python to an app on HuggingFace spaces using Solara. 
