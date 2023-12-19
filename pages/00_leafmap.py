@@ -1,8 +1,25 @@
 import leafmap
 import solara
+import geopandas as gpd
 
 # external script defines polygons, etc
-from fire import *
+#from fire import *
+
+nps = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodiversity/resolve/main/data/NPS.gdb")
+calfire = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodiversity/resolve/main/data/fire22_1.gdb",  layer = "firep22_1")
+# fire = gpd.read_file("/vsizip/vsicurl/https://edcintl.cr.usgs.gov/downloads/sciweb1/shared/MTBS_Fire/data/composite_data/burned_area_extent_shapefile/mtbs_perimeter_data.zip"
+
+# extract and reproject the Joshua Tree NP Polygon
+jtree = nps[nps.PARKNAME == "Joshua Tree"].to_crs(calfire.crs)
+
+# All Fires in the DB that intersect the Park
+jtree_fires = jtree.overlay(calfire, how="intersection")
+
+# Extract a polygon if interest.   > 2015 for Sentinel, otherwise we can use LandSat
+recent = jtree_fires[jtree_fires.YEAR_ > "2015"]
+big = recent[recent.Shape_Area == recent.Shape_Area.max()].to_crs("EPSG:4326")
+
+
 
 zoom = solara.reactive(14)
 center = solara.reactive((34, -116))
