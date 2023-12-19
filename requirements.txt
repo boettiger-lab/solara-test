@@ -7,3 +7,4 @@ planetary-computer
 odc-stac
 dask[distributed]
 matplotlib
+rioxarray
