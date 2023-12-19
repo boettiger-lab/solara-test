@@ -1,0 +1,22 @@
+{
+	  "image": "ghcr.io/boettiger-lab/solara-geospatial:latest",
+	  "name": "Solara Geospatial Environment",
+	  // build image as a github-action and grab instead; faster.
+	  // "build": {
+	  //	"dockerfile": "Dockerfile"
+	  //},
+	  "waitFor": "onCreateCommand",
+	  "updateContentCommand": "python3 -m pip install -r requirements.txt",
+	  "postCreateCommand": "",
+	  "customizations": {
+		"codespaces": {
+		  "openFiles": ["README.md"]
+		},
+		"vscode": {
+		  "extensions": [
+			"ms-toolsai.jupyter",
+			"ms-python.python"
+		  ]
+		}
+	  }
+}
