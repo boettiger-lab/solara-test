@@ -18,6 +18,8 @@ calfire = gpd.read_file("/vsicurl/https://huggingface.co/datasets/cboettig/biodi
 jtree = nps[nps.PARKNAME == "Joshua Tree"].to_crs(calfire.crs)
 jtree_fires = jtree.overlay(calfire, how="intersection")
 
+recent = jtree_fires[jtree_fires.YEAR_ > "2015"]
+big = recent[recent.Shape_Area == recent.Shape_Area.max()].to_crs("EPSG:4326")
 datetime = big.ALARM_DATE.item() + "/" + big.CONT_DATE.item()
 box = big.buffer(0.01).bounds.to_numpy()[0]  # Fire bbox + buffer  #box = jtree.to_crs("EPSG:4326").bounds.to_numpy()[0] # Park bbox
 
