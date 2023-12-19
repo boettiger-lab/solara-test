@@ -23,37 +23,8 @@ big = recent[recent.Shape_Area == recent.Shape_Area.max()].to_crs("EPSG:4326")
 datetime = big.ALARM_DATE.item() + "/" + big.CONT_DATE.item()
 box = big.buffer(0.01).bounds.to_numpy()[0]  # Fire bbox + buffer  #box = jtree.to_crs("EPSG:4326").bounds.to_numpy()[0] # Park bbox
 
-items = ( # STAC Search for this imagery in space/time window
-     pystac_client.Client.
-     open("https://planetarycomputer.microsoft.com/api/stac/v1",
-          modifier=planetary_computer.sign_inplace).
-     search(collections=["sentinel-2-l2a"],
-            bbox=box,
-            datetime=datetime,
-            query={"eo:cloud_cover": {"lt": 10}}).
-    item_collection())
-
-# Time to compute:
-client = dask.distributed.Client()
-sentinel_bands = ["B08", "B12", "SCL"]
-# The magic of gdalwarper. Can also resample, reproject, and aggregate on the fly
-data = odc.stac.load(items, bands=sentinel_bands,  bbox=box)
-swir = data["B12"].astype("float")
-nir = data["B08"].astype("float")
-# can resample and aggregate in xarray. compute with dask
-nbs = (((nir - swir) / (nir + swir)).
-      #  resample(time="MS").
-      #  median("time", keep_attrs=True).
-        compute()
-)
-
-import tempfile
-import os
-temp_dir = tempfile.gettempdir()
-nbs_file = os.path.join(temp_dir, "random_filename.tif")
-nbs.rio.to_raster(raster_path=nbs_file, driver="COG")
-
-nbs_url = "/vsicurl/https://huggingface.co/datasets/cboettig/solara-data/resolve/main/nbs.tif"
+before_url = "/vsicurl/https://huggingface.co/datasets/cboettig/solara-data/resolve/main/before.tif"
+after_url = "/vsicurl/https://huggingface.co/datasets/cboettig/solara-data/resolve/main/after.tif"
 
 
 class Map(leafmap.Map):
@@ -61,7 +32,7 @@ class Map(leafmap.Map):
         super().__init__(**kwargs)
         # Add what you want below
         self.add_gdf(jtree_fires)
-        self.add_cog_layer(nbs_url)
+        self.add_split_map(before_url, after_url)
 
 
 @solara.component
