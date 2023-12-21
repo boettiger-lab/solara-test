@@ -22,5 +22,3 @@ jobs:
       - name: Publish
         if: github.repository == 'boettiger-lab/solara-test'
         run: docker push ghcr.io/boettiger-lab/solara-geospatial:latest
-      - name: test vars
-        run: echo "repo is $REPO, container is $CONTAINER"
